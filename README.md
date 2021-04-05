@@ -1,6 +1,6 @@
 # How to start the app
 
-### 1) get npm
+### 1) install npm (if you don't have it yet)
 ### 2) clone this repo
 ### 3) run `npm install` in the repo folder
 ### 4) run `npm start` in the repo folder
