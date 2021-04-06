@@ -36,6 +36,7 @@ export const Search = () => {
         /* console.log(Object.keys(resp["Time Series (Daily)"]).slice(0, 30)); */
         if (resp["Error Message"]) {
           alert(resp["Error Message"]);
+          setSearch("");
         } else {
           setData(resp);
           setSearch("");

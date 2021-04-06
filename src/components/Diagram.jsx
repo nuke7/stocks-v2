@@ -19,6 +19,7 @@ export const Diagram = () => {
           style={{
             display: "flex",
             justifyContent: "space-evenly" /* flexWrap: "wrap" */,
+            marginBottom: "1rem",
           }}>
           <Button
             onClick={() => {
