@@ -2,35 +2,19 @@
 import { Line } from "react-chartjs-2";
 import React, { useState, useEffect, useContext } from "react";
 import { StockContext } from "../Context";
+import Button from "@material-ui/core/Button";
 
 export const Diagram = () => {
-  const { value1, value2 } = useContext(StockContext);
-  const [search, setSearch] = value2;
+  const { value1, value2, value3 } = useContext(StockContext);
+
   const [data, setData] = value1;
-
-  /*   const fetchData = async () => {
-    const response = await fetch(
-      `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&apikey=VQXHRFJAACVTHD2M`
-    );
-    if (response) {
-      const resp = await response.json();
-      console.log(Object.keys(resp["Time Series (Daily)"]).slice(0, 30));
-      setData(resp);
-    } else {
-      setData(null);
-    }
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []); */
-
-  /*   let openValues = Object.values(data["Time Series (Daily)"])
-    .slice(0, 10)
-    .map((val) => val["1. open"]); */
+  const [stock, setStock] = value3;
+  const [days, setDays] = useState(30);
 
   return (
     <div>
+      {data !== null && <h3>Historical data for {stock}</h3>}
+      {data !== null && }
       {data !== null ? (
         <Line
           data={{
@@ -39,14 +23,47 @@ export const Diagram = () => {
               {
                 label: "Opening Price",
                 data: Object.values(data["Time Series (Daily)"])
-                  .slice(0, 20)
+                  .slice(0, days)
                   .map((val) => val["1. open"])
                   .reverse(),
                 fill: false,
-                backgroundColor: "rgb(255, 99, 132)",
-                borderColor: "rgba(255, 99, 132, 0.2)",
+                backgroundColor: "rgb(148, 236, 236)",
+                borderColor: "rgb(75, 192, 192)",
+              },
+              {
+                label: "Closing Price",
+                data: Object.values(data["Time Series (Daily)"])
+                  .slice(0, days)
+                  .map((val) => val["4. close"])
+                  .reverse(),
+                fill: false,
+                backgroundColor: "rgb(253, 54, 97)",
+                borderColor: "rgb(241, 126, 151)",
+              },
+              {
+                label: "Daily Lowest Price",
+                data: Object.values(data["Time Series (Daily)"])
+                  .slice(0, days)
+                  .map((val) => val["3. low"])
+                  .reverse(),
+                fill: false,
+                backgroundColor: "rgb(54, 67, 253)",
+                borderColor: "rgb(159, 165, 247)",
+              },
+              {
+                label: "Daily Highest Price",
+                data: Object.values(data["Time Series (Daily)"])
+                  .slice(0, days)
+                  .map((val) => val["2. high"])
+                  .reverse(),
+                fill: false,
+                backgroundColor: "rgb(248, 214, 21)",
+                borderColor: "rgb(255, 221, 29)",
               },
             ],
+          }}
+          options={{
+            maintainAspectRatio: true,
           }}
           height={400}
           width={600}
