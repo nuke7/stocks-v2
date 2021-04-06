@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
-import Icon from "@material-ui/core/Icon";
+
 import SearchIcon from "@material-ui/icons/Search";
 import { StockContext } from "../Context";
 
@@ -17,12 +17,16 @@ const useStyles = makeStyles((theme) => ({
 
 export const Search = () => {
   const classes = useStyles();
-  const { value1, value2 } = useContext(StockContext);
+  const { value1, value2, value3 } = useContext(StockContext);
   const [search, setSearch] = value2;
+  // eslint-disable-next-line no-unused-vars
   const [data, setData] = value1;
+  // eslint-disable-next-line no-unused-vars
+  const [stock, setStock] = value3;
 
   const fetchData = async () => {
     if (search.length !== 0) {
+      setStock(search);
       const response = await fetch(
         `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${search}&apikey=VQXHRFJAACVTHD2M`
       );
@@ -34,11 +38,14 @@ export const Search = () => {
           alert(resp["Error Message"]);
         } else {
           setData(resp);
+          setSearch("");
         }
       } else {
         setData(null);
+        setSearch("");
       }
     } else {
+      setSearch("");
       alert("cant search with an empty search bar");
     }
   };
@@ -46,6 +53,9 @@ export const Search = () => {
   return (
     <form
       className={classes.root}
+      onSubmit={(e) => {
+        e.preventDefault();
+      }}
       autoComplete="off"
       style={{
         display: "flex",
@@ -55,6 +65,11 @@ export const Search = () => {
       }}>
       <TextField
         onChange={(e) => setSearch(e.target.value)}
+        onKeyPress={(e) => {
+          if (e.key === "Enter") {
+            fetchData();
+          }
+        }}
         value={search}
         id="standard-search"
         label="Enter Symbol"
@@ -64,7 +79,7 @@ export const Search = () => {
       <Button
         onClick={() => {
           console.log(search);
-          setSearch("");
+
           fetchData();
         }}
         variant="outlined"

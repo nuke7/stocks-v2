@@ -14,7 +14,16 @@ export const Diagram = () => {
   return (
     <div>
       {data !== null && <h3>Historical data for {stock}</h3>}
-      {data !== null && }
+      {data !== null && (
+        <Button
+          onClick={() => {
+            setDays(10);
+          }}
+          variant="outlined"
+          color="primary">
+          10 days
+        </Button>
+      )}
       {data !== null ? (
         <Line
           data={{
