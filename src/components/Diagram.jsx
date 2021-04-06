@@ -15,19 +15,41 @@ export const Diagram = () => {
     <div>
       {data !== null && <h3>Historical data for {stock}</h3>}
       {data !== null && (
-        <Button
-          onClick={() => {
-            setDays(10);
-          }}
-          variant="outlined"
-          color="primary">
-          10 days
-        </Button>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-evenly" /* flexWrap: "wrap" */,
+          }}>
+          <Button
+            onClick={() => {
+              setDays(10);
+            }}
+            variant="outlined"
+            color="primary">
+            Last 10 datapoints
+          </Button>
+          <Button
+            onClick={() => {
+              setDays(20);
+            }}
+            variant="outlined"
+            color="primary">
+            Last 20 datapoints
+          </Button>
+          <Button
+            onClick={() => {
+              setDays(30);
+            }}
+            variant="outlined"
+            color="primary">
+            Last 30 datapoints
+          </Button>
+        </div>
       )}
       {data !== null ? (
         <Line
           data={{
-            labels: Object.keys(data["Time Series (Daily)"]).slice(0, 20).reverse(),
+            labels: Object.keys(data["Time Series (Daily)"]).slice(0, days).reverse(),
             datasets: [
               {
                 label: "Opening Price",
