@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
@@ -26,13 +26,13 @@ const useStyles = makeStyles((theme) => ({
 
 export const Search = () => {
   const classes = useStyles();
-  const { value1, value2, value3 } = useContext(StockContext);
+  const { value1, value2, value3, value4 } = useContext(StockContext);
   const [search, setSearch] = value2;
   // eslint-disable-next-line no-unused-vars
   const [data, setData] = value1;
   // eslint-disable-next-line no-unused-vars
   const [stock, setStock] = value3;
-  const [freq, setFreq] = useState("daily");
+  const [freq, setFreq] = value4;
 
   const fetchData = async () => {
     if (search.length !== 0) {

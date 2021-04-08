@@ -27,7 +27,7 @@ export const Diagram = () => {
             }}
             variant="outlined"
             color="primary">
-            Last 10 datapoints
+            Latest 10 datapoints
           </Button>
           <Button
             onClick={() => {
@@ -35,7 +35,7 @@ export const Diagram = () => {
             }}
             variant="outlined"
             color="primary">
-            Last 20 datapoints
+            Latest 20 datapoints
           </Button>
           <Button
             onClick={() => {
@@ -43,7 +43,7 @@ export const Diagram = () => {
             }}
             variant="outlined"
             color="primary">
-            Last 30 datapoints
+            Latest 30 datapoints
           </Button>
         </div>
       )}
