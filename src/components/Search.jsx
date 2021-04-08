@@ -37,6 +37,7 @@ export const Search = () => {
         if (resp["Error Message"]) {
           alert(resp["Error Message"]);
           setSearch("");
+          setData(null);
         } else {
           setData(resp);
           setSearch("");
