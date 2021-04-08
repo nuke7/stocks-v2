@@ -155,6 +155,59 @@ export const Diagram = () => {
           height={400}
           width={600}
         />
+      ) : data !== null && !loading && freq === "monthly" ? (
+        <Line
+          data={{
+            labels: Object.keys(data["Monthly Time Series"]).slice(0, days).reverse(),
+            datasets: [
+              {
+                label: "Opening Price",
+                data: Object.values(data["Monthly Time Series"])
+                  .slice(0, days)
+                  .map((val) => val["1. open"])
+                  .reverse(),
+                fill: false,
+                backgroundColor: "rgb(148, 236, 236)",
+                borderColor: "rgb(75, 192, 192)",
+              },
+              {
+                label: "Closing Price",
+                data: Object.values(data["Monthly Time Series"])
+                  .slice(0, days)
+                  .map((val) => val["4. close"])
+                  .reverse(),
+                fill: false,
+                backgroundColor: "rgb(253, 54, 97)",
+                borderColor: "rgb(241, 126, 151)",
+              },
+              {
+                label: "Daily Lowest Price",
+                data: Object.values(data["Monthly Time Series"])
+                  .slice(0, days)
+                  .map((val) => val["3. low"])
+                  .reverse(),
+                fill: false,
+                backgroundColor: "rgb(54, 67, 253)",
+                borderColor: "rgb(159, 165, 247)",
+              },
+              {
+                label: "Daily Highest Price",
+                data: Object.values(data["Monthly Time Series"])
+                  .slice(0, days)
+                  .map((val) => val["2. high"])
+                  .reverse(),
+                fill: false,
+                backgroundColor: "rgb(248, 214, 21)",
+                borderColor: "rgb(255, 221, 29)",
+              },
+            ],
+          }}
+          options={{
+            maintainAspectRatio: true,
+          }}
+          height={400}
+          width={600}
+        />
       ) : !loading ? (
         <div style={{ textAlign: "center" }}>
           <h3>No data to show, yet</h3>
