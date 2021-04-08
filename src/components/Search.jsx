@@ -26,19 +26,21 @@ const useStyles = makeStyles((theme) => ({
 
 export const Search = () => {
   const classes = useStyles();
-  const { value1, value2, value3, value4 } = useContext(StockContext);
+  const { value1, value2, value3, value4, value5 } = useContext(StockContext);
   const [search, setSearch] = value2;
   // eslint-disable-next-line no-unused-vars
   const [data, setData] = value1;
   // eslint-disable-next-line no-unused-vars
   const [stock, setStock] = value3;
   const [freq, setFreq] = value4;
+  const [loading, setLoading] = value5;
 
   const fetchData = async () => {
     if (search.length !== 0) {
       setStock(search);
+      setLoading(true);
       const response = await fetch(
-        `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${search}&apikey=VQXHRFJAACVTHD2M`
+        `https://www.alphavantage.co/query?function=TIME_SERIES_${freq}&symbol=${search}&apikey=VQXHRFJAACVTHD2M`
       );
       if (response) {
         const resp = await response.json();
@@ -62,6 +64,30 @@ export const Search = () => {
     }
   };
 
+  const fetchDataFreq = async () => {
+    if (stock.length !== 0) {
+      const response = await fetch(
+        `https://www.alphavantage.co/query?function=TIME_SERIES_${freq}&symbol=${stock}&apikey=VQXHRFJAACVTHD2M`
+      );
+      if (response) {
+        const resp = await response.json();
+        console.log(resp["Error Message"]);
+        /* console.log(Object.keys(resp["Time Series (Daily)"]).slice(0, 30)); */
+        if (resp["Error Message"]) {
+          alert(resp["Error Message"]);
+          setSearch("");
+          setData(null);
+        } else {
+          setData(resp);
+          setSearch("");
+        }
+      } else {
+        setData(null);
+        setSearch("");
+      }
+    }
+  };
+
   return (
     <form
       className={classes.root}
@@ -75,22 +101,6 @@ export const Search = () => {
         alignItems: "center",
         margin: "1rem auto",
       }}>
-      <FormControl className={classes.formControl}>
-        <InputLabel id="demo-simple-select-label">Frequency</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={freq}
-          onChange={(e) => {
-            setFreq(e.target.value);
-            console.log(e.target.value);
-          }}>
-          <MenuItem value={"daily"}>Daily</MenuItem>
-          <MenuItem value={"weekly"}>Weekly</MenuItem>
-          <MenuItem value={"monthly"}>Monthly</MenuItem>
-        </Select>
-        <FormHelperText>Select data-point frequency</FormHelperText>
-      </FormControl>
       <TextField
         onChange={(e) => setSearch(e.target.value)}
         onKeyPress={(e) => {
@@ -104,6 +114,22 @@ export const Search = () => {
         type="search"
         helperText="search for a securities ticker"
       />
+      <FormControl className={classes.formControl}>
+        <InputLabel id="demo-simple-select-label">Frequency</InputLabel>
+        <Select
+          disabled={search.length === 0}
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={freq}
+          onChange={(e) => {
+            setFreq(e.target.value);
+          }}>
+          <MenuItem value={"daily"}>Daily</MenuItem>
+          <MenuItem value={"weekly"}>Weekly</MenuItem>
+          <MenuItem value={"monthly"}>Monthly</MenuItem>
+        </Select>
+        <FormHelperText>Select data-point frequency</FormHelperText>
+      </FormControl>
       <Button
         onClick={() => {
           console.log(search);

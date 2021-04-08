@@ -7,6 +7,7 @@ export const StockProvider = (props) => {
   const [stock, setStock] = useState("");
   const [search, setSearch] = useState("");
   const [freq, setFreq] = useState("daily");
+  const [loading, setLoading] = useState(false);
 
   return (
     <StockContext.Provider
@@ -15,6 +16,7 @@ export const StockProvider = (props) => {
         value2: [search, setSearch],
         value3: [stock, setStock],
         value4: [freq, setFreq],
+        value5: [loading, setLoading],
       }}>
       {props.children}
     </StockContext.Provider>
