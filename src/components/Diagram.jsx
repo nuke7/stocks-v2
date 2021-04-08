@@ -15,8 +15,8 @@ export const Diagram = () => {
 
   return (
     <div>
-      {data !== null && <h3>Historical data for {stock}</h3>}
-      {data !== null && (
+      {data !== null && !loading && <h3>Historical data for {stock}</h3>}
+      {data !== null && !loading && (
         <div
           style={{
             display: "flex",
@@ -49,7 +49,7 @@ export const Diagram = () => {
           </Button>
         </div>
       )}
-      {data !== null && freq === "daily" ? (
+      {data !== null && !loading && freq === "daily" ? (
         <Line
           data={{
             labels: Object.keys(data["Time Series (Daily)"]).slice(0, days).reverse(),
@@ -102,7 +102,7 @@ export const Diagram = () => {
           height={400}
           width={600}
         />
-      ) : data !== null && freq === "weekly" ? (
+      ) : data !== null && !loading && freq === "weekly" ? (
         <Line
           data={{
             labels: Object.keys(data["Weekly Time Series"]).slice(0, days).reverse(),

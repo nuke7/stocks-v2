@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useContext } from "react";
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
@@ -45,7 +46,7 @@ export const Search = () => {
       if (response) {
         const resp = await response.json();
         console.log(resp["Error Message"]);
-        /* console.log(Object.keys(resp["Time Series (Daily)"]).slice(0, 30)); */
+        setLoading(false);
         if (resp["Error Message"]) {
           alert(resp["Error Message"]);
           setSearch("");
@@ -61,30 +62,6 @@ export const Search = () => {
     } else {
       setSearch("");
       alert("cant search with an empty search bar");
-    }
-  };
-
-  const fetchDataFreq = async () => {
-    if (stock.length !== 0) {
-      const response = await fetch(
-        `https://www.alphavantage.co/query?function=TIME_SERIES_${freq}&symbol=${stock}&apikey=VQXHRFJAACVTHD2M`
-      );
-      if (response) {
-        const resp = await response.json();
-        console.log(resp["Error Message"]);
-        /* console.log(Object.keys(resp["Time Series (Daily)"]).slice(0, 30)); */
-        if (resp["Error Message"]) {
-          alert(resp["Error Message"]);
-          setSearch("");
-          setData(null);
-        } else {
-          setData(resp);
-          setSearch("");
-        }
-      } else {
-        setData(null);
-        setSearch("");
-      }
     }
   };
 
@@ -122,6 +99,7 @@ export const Search = () => {
           id="demo-simple-select"
           value={freq}
           onChange={(e) => {
+            setData(null);
             setFreq(e.target.value);
           }}>
           <MenuItem value={"daily"}>Daily</MenuItem>
