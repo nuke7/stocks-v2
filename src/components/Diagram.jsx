@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { Line } from "react-chartjs-2";
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { StockContext } from "../Context";
 import Button from "@material-ui/core/Button";
 
@@ -12,6 +12,26 @@ export const Diagram = () => {
   const [days, setDays] = useState(30);
   const [freq, setFreq] = value4;
   const [loading, setLoading] = value5;
+  const [string, setString] = useState("Time Series (Daily)");
+
+  useEffect(() => {
+    const makeString = () => {
+      let solution;
+
+      if (freq === "daily") {
+        solution = "Time Series (Daily)";
+      } else if (freq === "weekly") {
+        solution = "Weekly Time Series";
+      } else if (freq === "monthly") {
+        solution = "Monthly Time Series";
+      }
+
+      setString(solution);
+    };
+
+    makeString();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [freq]);
 
   return (
     <div>
@@ -49,14 +69,14 @@ export const Diagram = () => {
           </Button>
         </div>
       )}
-      {data !== null && !loading && freq === "daily" ? (
+      {data !== null && !loading ? (
         <Line
           data={{
-            labels: Object.keys(data["Time Series (Daily)"]).slice(0, days).reverse(),
+            labels: Object.keys(data[`${string}`]).slice(0, days).reverse(),
             datasets: [
               {
                 label: "Opening Price",
-                data: Object.values(data["Time Series (Daily)"])
+                data: Object.values(data[`${string}`])
                   .slice(0, days)
                   .map((val) => val["1. open"])
                   .reverse(),
@@ -66,7 +86,7 @@ export const Diagram = () => {
               },
               {
                 label: "Closing Price",
-                data: Object.values(data["Time Series (Daily)"])
+                data: Object.values(data[`${string}`])
                   .slice(0, days)
                   .map((val) => val["4. close"])
                   .reverse(),
@@ -75,8 +95,8 @@ export const Diagram = () => {
                 borderColor: "rgb(241, 126, 151)",
               },
               {
-                label: "Daily Lowest Price",
-                data: Object.values(data["Time Series (Daily)"])
+                label: "Lowest Price",
+                data: Object.values(data[`${string}`])
                   .slice(0, days)
                   .map((val) => val["3. low"])
                   .reverse(),
@@ -85,114 +105,8 @@ export const Diagram = () => {
                 borderColor: "rgb(159, 165, 247)",
               },
               {
-                label: "Daily Highest Price",
-                data: Object.values(data["Time Series (Daily)"])
-                  .slice(0, days)
-                  .map((val) => val["2. high"])
-                  .reverse(),
-                fill: false,
-                backgroundColor: "rgb(248, 214, 21)",
-                borderColor: "rgb(255, 221, 29)",
-              },
-            ],
-          }}
-          options={{
-            maintainAspectRatio: true,
-          }}
-          height={400}
-          width={600}
-        />
-      ) : data !== null && !loading && freq === "weekly" ? (
-        <Line
-          data={{
-            labels: Object.keys(data["Weekly Time Series"]).slice(0, days).reverse(),
-            datasets: [
-              {
-                label: "Opening Price",
-                data: Object.values(data["Weekly Time Series"])
-                  .slice(0, days)
-                  .map((val) => val["1. open"])
-                  .reverse(),
-                fill: false,
-                backgroundColor: "rgb(148, 236, 236)",
-                borderColor: "rgb(75, 192, 192)",
-              },
-              {
-                label: "Closing Price",
-                data: Object.values(data["Weekly Time Series"])
-                  .slice(0, days)
-                  .map((val) => val["4. close"])
-                  .reverse(),
-                fill: false,
-                backgroundColor: "rgb(253, 54, 97)",
-                borderColor: "rgb(241, 126, 151)",
-              },
-              {
-                label: "Daily Lowest Price",
-                data: Object.values(data["Weekly Time Series"])
-                  .slice(0, days)
-                  .map((val) => val["3. low"])
-                  .reverse(),
-                fill: false,
-                backgroundColor: "rgb(54, 67, 253)",
-                borderColor: "rgb(159, 165, 247)",
-              },
-              {
-                label: "Daily Highest Price",
-                data: Object.values(data["Weekly Time Series"])
-                  .slice(0, days)
-                  .map((val) => val["2. high"])
-                  .reverse(),
-                fill: false,
-                backgroundColor: "rgb(248, 214, 21)",
-                borderColor: "rgb(255, 221, 29)",
-              },
-            ],
-          }}
-          options={{
-            maintainAspectRatio: true,
-          }}
-          height={400}
-          width={600}
-        />
-      ) : data !== null && !loading && freq === "monthly" ? (
-        <Line
-          data={{
-            labels: Object.keys(data["Monthly Time Series"]).slice(0, days).reverse(),
-            datasets: [
-              {
-                label: "Opening Price",
-                data: Object.values(data["Monthly Time Series"])
-                  .slice(0, days)
-                  .map((val) => val["1. open"])
-                  .reverse(),
-                fill: false,
-                backgroundColor: "rgb(148, 236, 236)",
-                borderColor: "rgb(75, 192, 192)",
-              },
-              {
-                label: "Closing Price",
-                data: Object.values(data["Monthly Time Series"])
-                  .slice(0, days)
-                  .map((val) => val["4. close"])
-                  .reverse(),
-                fill: false,
-                backgroundColor: "rgb(253, 54, 97)",
-                borderColor: "rgb(241, 126, 151)",
-              },
-              {
-                label: "Daily Lowest Price",
-                data: Object.values(data["Monthly Time Series"])
-                  .slice(0, days)
-                  .map((val) => val["3. low"])
-                  .reverse(),
-                fill: false,
-                backgroundColor: "rgb(54, 67, 253)",
-                borderColor: "rgb(159, 165, 247)",
-              },
-              {
-                label: "Daily Highest Price",
-                data: Object.values(data["Monthly Time Series"])
+                label: "Highest Price",
+                data: Object.values(data[`${string}`])
                   .slice(0, days)
                   .map((val) => val["2. high"])
                   .reverse(),
