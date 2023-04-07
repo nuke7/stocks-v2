@@ -6,7 +6,7 @@ export const StockProvider = (props) => {
   const [data, setData] = useState(null);
   const [stock, setStock] = useState("");
   const [search, setSearch] = useState("");
-  const [freq, setFreq] = useState("daily");
+  const [freq, setFreq] = useState("weekly");
   const [loading, setLoading] = useState(false);
 
   return (

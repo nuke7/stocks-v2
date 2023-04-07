@@ -12,15 +12,13 @@ export const Diagram = () => {
   const [days, setDays] = useState(30);
   const [freq, setFreq] = value4;
   const [loading, setLoading] = value5;
-  const [string, setString] = useState("Time Series (Daily)");
+  const [string, setString] = useState("");
 
   useEffect(() => {
     const makeString = () => {
       let solution;
 
-      if (freq === "daily") {
-        solution = "Time Series (Daily)";
-      } else if (freq === "weekly") {
+      if (freq === "weekly") {
         solution = "Weekly Time Series";
       } else if (freq === "monthly") {
         solution = "Monthly Time Series";
